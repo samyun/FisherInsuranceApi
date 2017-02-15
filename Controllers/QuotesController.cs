@@ -25,8 +25,8 @@ public class QuotesController : Controller
          return Ok(db.RetrieveQuote(id));
     }
 
-    // PUT api/quotes/id
-    [HttpPut("{id}")]
+    // PUT api/quotes/
+    [HttpPut]
     public IActionResult Put([FromBody] Quote quote)
     {
         return Ok(db.UpdateQuote(quote));

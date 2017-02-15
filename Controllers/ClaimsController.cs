@@ -25,8 +25,8 @@ public class ClaimsController : Controller
          return Ok(db.RetrieveClaim(id));
     }
 
-    // PUT api/claims/id
-    [HttpPut("{id}")]
+    // PUT api/claims/
+    [HttpPut]
     public IActionResult Put([FromBody] Claim claim)
     {
         return Ok(db.UpdateClaim(claim));
