@@ -5,51 +5,63 @@ using FisherInsuranceApi.Models;
 [Route("api/claims/")]
 public class ClaimsController : Controller
 {
-    public ClaimsController() 
+    private readonly FisherContext db;
+    public ClaimsController(FisherContext context) 
     {
+        db = context;
     }
     
     // POST api/claims/
     [HttpPost]
     public IActionResult Post([FromBody]Claim claim)
     {
-        //return Ok(db.CreateClaim(claim));
+        var newClaim = db.Claims.Add(claim);
+        db.SaveChanges();
 
-        return Ok();
+        return CreatedAtRoute("GetClaim", new { id = claim.Id }, claim);
     }
 
-    // GET api/claims/id
-    [HttpGet("{id}")]
+    // GET api/claims/{id}
+    [HttpGet("{id}", Name = "GetClaim")]
     public IActionResult Get(int id)
     {
-         
-        return Ok();
-        //return Ok(db.RetrieveClaim(id));
+        return Ok(db.Claims.Find(id));
     }
 
-    // PUT api/claims/
-    [HttpPut]
-    public IActionResult Put([FromBody] Claim claim)
+    // PUT api/claims/{id}
+    [HttpPut("{id}")]
+    public IActionResult Put(int id, [FromBody] Claim claim)
     {
-        
-        return Ok();
-        //return Ok(db.UpdateClaim(claim));
+        var newClaim = db.Claims.Find(id);
+        if (newClaim == null)
+        {
+            return NotFound();
+        }
+        newClaim = claim;
+        db.SaveChanges();
+        return Ok(newClaim);
     }
 
-    // DELETE api/claims/id
+    // DELETE api/claims/{id}
     [HttpDelete("{id}")]
     public IActionResult Delete(int id)
     {
-        //db.DeleteClaim(id);
-        return Ok();
+        var claimToDelete = db.Claims.Find(id);
+        if (claimToDelete == null)
+        {
+            return NotFound();
+        }
+
+        db.Claims.Remove(claimToDelete);
+        db.SaveChangesAsync();
+
+        return NoContent();
     }
 
     // GET api/claims/
     [HttpGet]
     public IActionResult GetClaims()
     {
-        
-        return Ok();
-        //return Ok(db.RetrieveAllClaims);
+        return Ok(db.Claims);
     }
 }
