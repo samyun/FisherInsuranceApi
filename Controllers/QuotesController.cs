@@ -38,6 +38,8 @@ public class QuotesController : Controller
             return NotFound();
         }
         newQuote = quote;
+        newQuote.Id = id;
+        db.Quotes.Update(newQuote);
         db.SaveChanges();
         return Ok(newQuote);
     }
