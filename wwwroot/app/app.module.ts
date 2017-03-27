@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from "./auth.service";
+import { AuthHttp } from "./auth.http";
 import 'rxjs/Rx';
 
 import { AppComponent } from './app.component';
@@ -33,7 +35,8 @@ import { AppRouting } from './app.routing';
         AppRouting 
     ],
     providers: [
-
+        AuthService,
+        AuthHttp
     ],
     bootstrap: [
         AppComponent
